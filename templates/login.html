@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>登录 - 信息终端资产查询</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="login-body">
+<main class="login-page">
+  <form class="card login-card" method="post" action="/login" autocomplete="off">
+    <div class="login-head">
+      <span class="logo">查询</span>
+      <h1>信息终端资产查询</h1>
+    </div>
+    <p class="login-sub">请输入查询密码进入；连续输错 {{ max_fails }} 次会临时锁定 {{ lock_minutes }} 分钟。</p>
+
+    <label class="field">
+      <span>查询密码</span>
+      <input id="password" name="password" type="password" required autofocus
+             placeholder="请输入查询密码">
+    </label>
+
+    {% if error %}<p class="login-error">{{ error }}</p>{% endif %}
+
+    <button class="btn primary block" type="submit">进入查询</button>
+
+    <p class="login-foot">
+      登录状态保持
+      {% if session_hours and session_hours > 0 %}{{ session_hours }} 小时{% else %}到关闭浏览器{% endif %}；
+      改密码请在本目录运行 <code>gen_password.py</code>（配置文件只保存 SHA-256 哈希）。
+    </p>
+  </form>
+</main>
+</body>
+</html>

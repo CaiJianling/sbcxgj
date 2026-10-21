@@ -1,0 +1,55 @@
+# ===== 设备查询工具 =====
+# 说明：本目录的 config.ini 只保存查询密码的 SHA-256 哈希，devices.db 里是全院终端资产明细
+#       （含终端密码字段），两者都属于本机生成物/敏感数据，不要提交到仓库。
+#       新机器上手：复制 config.example.ini 为 config.ini，再运行 gen_password.py 设置密码，
+#       然后用 import_data.py 从 Excel 重新导入 devices.db。
+
+# ---- 虚拟环境 ----
+.venv/
+venv/
+env/
+
+# ---- Python 运行产物 ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+
+# ---- 本地配置与密钥（含密码哈希）----
+config.ini
+*.local.ini
+.env
+*.key
+*.pem
+
+# ---- 数据库与导入产物 ----
+devices.db
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# ---- 日志与临时文件 ----
+*.log
+logs/
+nohup.out
+*.tmp
+~$*
+*.bak
+
+# ---- 编辑器 / 系统 ----
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ---- Excel 源表（含资产信息，需要连原件一起忽略时去掉下面的注释）----
+*.xlsx
+# !模板*.xlsx

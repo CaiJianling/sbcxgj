@@ -1,0 +1,11 @@
+# 设备查询工具依赖
+# 国内加速安装（清华源）：
+#   .venv\Scripts\python.exe -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --upgrade pip
+#   .venv\Scripts\python.exe -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
+# 备用国内源：阿里云 https://mirrors.aliyun.com/pypi/simple/  腾讯云 https://mirrors.cloud.tencent.com/pypi/simple/
+# 登录校验只用标准库（configparser / hmac / hashlib），不需要额外装包。
+
+Flask==3.0.3
+Werkzeug==3.0.4
+Jinja2==3.1.4
+openpyxl==3.1.5

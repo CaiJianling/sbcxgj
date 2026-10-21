@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>信息终端资产查询</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">查询</span>
+    <div>
+      <h1>信息终端资产查询</h1>
+      <p id="sourceInfo" class="source">正在读取数据源信息…</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button id="btnRefresh" class="btn ghost" title="重新载入下拉选项">刷新选项</button>
+    <button id="btnExport" class="btn ghost" title="把当前查询结果导出为 CSV（可用 Excel 打开）">导出 CSV</button>
+    <a id="btnLogout" class="btn ghost" href="/logout" title="清除本机登录状态">退出登录</a>
+  </div>
+</header>
+
+<main>
+  <section class="card filters">
+    <div class="filter-grid">
+      <label class="field wide">
+        <span>关键字（科室/位置/IP/计算机名/型号/备注等全文模糊匹配）</span>
+        <input id="fKeyword" type="search" placeholder="例如：19病区 或 118.127 或 云桌面">
+      </label>
+
+      <label class="field">
+        <span>资产编号</span>
+        <input id="fAsset" type="search" placeholder="支持片段，多个用逗号分隔">
+      </label>
+      <label class="field checkbox-field">
+        <span>&nbsp;</span>
+        <label class="inline-check"><input id="fExact" type="checkbox"><i></i>精确匹配</label>
+      </label>
+
+      <label class="field"><span>楼号</span><select id="fBuilding"></select></label>
+      <label class="field"><span>楼层</span><select id="fFloor"></select></label>
+      <label class="field"><span>设备分类</span><select id="fCategory"></select></label>
+      <label class="field"><span>设备名称</span><select id="fDeviceName"></select></label>
+      <label class="field"><span>工作类型</span><select id="fWorkType"></select></label>
+      <label class="field"><span>网络状态</span><select id="fNetwork"></select></label>
+      <label class="field"><span>品牌</span><select id="fBrand"></select></label>
+
+      <label class="field"><span>工作组（可输入联想）</span>
+        <input id="fWorkGroup" list="dlWorkGroup" placeholder="留空不限">
+        <datalist id="dlWorkGroup"></datalist>
+      </label>
+      <label class="field"><span>科室（可输入联想）</span>
+        <input id="fDept" list="dlDept" placeholder="留空不限">
+        <datalist id="dlDept"></datalist>
+      </label>
+
+      <label class="field"><span>出厂年份起</span><input id="fYearFrom" type="number" min="1990" max="2100" placeholder="如 2020"></label>
+      <label class="field"><span>出厂年份止</span><input id="fYearTo" type="number" min="1990" max="2100" placeholder="如 2025"></label>
+
+      <label class="field extra">
+        <span>附加条件</span>
+        <div class="extra-row">
+          <label class="inline-check"><input id="fNoYear" type="checkbox"><i></i>无出厂年份</label>
+          <label class="inline-check"><input id="fShowPwd" type="checkbox"><i></i>显示终端密码</label>
+          <label class="inline-check"><input id="fAllCols" type="checkbox"><i></i>显示全部列</label>
+        </div>
+      </label>
+    </div>
+
+    <div class="filter-actions">
+      <button id="btnSearch" class="btn primary">查询</button>
+      <button id="btnReset" class="btn ghost">重置</button>
+      <span class="spacer"></span>
+      <label class="page-size">每页
+        <select id="pageSize">
+          <option>20</option><option selected>50</option><option>100</option><option>200</option>
+        </select>条
+      </label>
+    </div>
+    <p class="hint">提示：资产编号一栏可直接粘贴多个编号（逗号或空格分隔）批量查；点表头可排序，点一行看完整明细。</p>
+  </section>
+
+  <section class="result-head">
+    <div id="summary" class="summary">请输入条件后点击“查询”。</div>
+    <div id="stats" class="stats"></div>
+  </section>
+
+  <section class="card table-wrap">
+    <table id="resultTable" class="hidden">
+      <thead><tr id="headRow"></tr></thead>
+      <tbody id="body"></tbody>
+    </table>
+    <div id="empty" class="empty hidden">没有查到匹配记录，试着放宽条件（清空楼号/楼层，或只用关键字）。</div>
+  </section>
+
+  <nav class="pager">
+    <button id="btnPrev" class="btn ghost">上一页</button>
+    <span id="pageInfo" class="page-info">-</span>
+    <button id="btnNext" class="btn ghost">下一页</button>
+    <span class="jump">跳至 <input id="pageJump" type="number" min="1"> <button id="btnJump" class="btn tiny">跳转</button></span>
+  </nav>
+</main>
+
+<div id="detailMask" class="mask hidden"></div>
+<aside id="detail" class="drawer hidden" aria-label="设备明细">
+  <div class="drawer-head">
+    <h2 id="detailTitle">设备明细</h2>
+    <button id="btnCloseDetail" class="btn ghost">关闭</button>
+  </div>
+  <dl id="detailBody" class="detail-list"></dl>
+</aside>
+
+<footer class="foot">
+  数据来源：Excel 明细表导入 SQLite，仅内网使用，需输入查询密码登录。终端密码默认隐藏，勾选后才会显示并导出。
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>
